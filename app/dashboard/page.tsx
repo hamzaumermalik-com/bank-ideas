@@ -1,9 +1,8 @@
 import { getIdeas } from "@/lib/ideas";
 import Header from "@/components/header";
-import IdeaForm from "@/components/idea-form";
-import IdeasBoard from "@/components/ideas-board";
+import Leaderboard from "@/components/leaderboard";
 
-export default async function Home() {
+export default async function DashboardPage() {
   const ideas = await getIdeas();
 
   return (
@@ -12,20 +11,14 @@ export default async function Home() {
       <main className="mx-auto w-full max-w-6xl flex-1 px-6 py-10">
         <div className="mb-8">
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50 sm:text-3xl">
-            Share an idea to improve the bank
+            Winners Dashboard
           </h1>
           <p className="mt-2 max-w-2xl text-slate-600 dark:text-slate-400">
-            Every submission is visible to the whole team instantly — vote on
-            the ideas you&apos;d like to see prioritized.
+            See which ideas are leading the pack — and exactly why
+            they&apos;re winning.
           </p>
         </div>
-
-        <div className="grid gap-8 lg:grid-cols-[380px_1fr]">
-          <div className="lg:sticky lg:top-24 lg:self-start">
-            <IdeaForm />
-          </div>
-          <IdeasBoard initialIdeas={ideas} />
-        </div>
+        <Leaderboard initialIdeas={ideas} />
       </main>
     </div>
   );
