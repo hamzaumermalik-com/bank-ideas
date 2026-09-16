@@ -39,10 +39,16 @@ export async function POST(request: Request) {
   const ideas = await getIdeas();
   const ideasSummary = ideas.length
     ? ideas
-        .map(
-          (idea, index) =>
-            `${index + 1}. [${idea.category}] "${idea.title}" — ${idea.votes} vote${idea.votes === 1 ? "" : "s"}, submitted by ${idea.submitted_by}\n   ${idea.description}`
-        )
+        .map((idea, index) => {
+          const submitter = [
+            idea.submitted_by,
+            idea.department,
+            idea.bank,
+          ]
+            .filter(Boolean)
+            .join(", ");
+          return `${index + 1}. [${idea.category}] "${idea.title}" — ${idea.votes} vote${idea.votes === 1 ? "" : "s"}, submitted by ${submitter}\n   ${idea.description}`;
+        })
         .join("\n\n")
     : "No ideas have been submitted yet.";
 

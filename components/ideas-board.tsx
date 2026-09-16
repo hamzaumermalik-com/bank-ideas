@@ -100,7 +100,10 @@ export default function IdeasBoard({
       result = result.filter(
         (idea) =>
           idea.title.toLowerCase().includes(q) ||
-          idea.description.toLowerCase().includes(q)
+          idea.description.toLowerCase().includes(q) ||
+          idea.submitted_by.toLowerCase().includes(q) ||
+          idea.department?.toLowerCase().includes(q) ||
+          idea.bank?.toLowerCase().includes(q)
       );
     }
     return [...result].sort((a, b) =>

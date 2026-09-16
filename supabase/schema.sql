@@ -63,3 +63,30 @@ grant execute on function public.increment_idea_vote(uuid) to anon, authenticate
 
 -- Enable realtime so new/updated ideas broadcast to every open browser tab.
 alter publication supabase_realtime add table public.ideas;
+
+-- Migration: employee identification fields (staff ID, department, bank).
+-- Nullable so existing rows aren't broken; the app requires them for new
+-- submissions.
+alter table public.ideas add column if not exists staff_id text;
+alter table public.ideas add column if not exists department text;
+alter table public.ideas add column if not exists bank text;
+
+alter table public.ideas drop constraint if exists ideas_department_check;
+alter table public.ideas add constraint ideas_department_check check (
+  department is null or department in (
+    'Retail Banking',
+    'Corporate Banking',
+    'Operations',
+    'IT & Digital',
+    'Risk & Compliance',
+    'HR & Admin',
+    'Marketing & CX',
+    'Finance & Treasury',
+    'Other'
+  )
+);
+
+alter table public.ideas drop constraint if exists ideas_bank_check;
+alter table public.ideas add constraint ideas_bank_check check (
+  bank is null or bank in ('BisB', 'NBB')
+);

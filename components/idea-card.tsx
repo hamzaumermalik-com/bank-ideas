@@ -6,6 +6,7 @@ import { Bot, ChevronUp, Clock, User } from "lucide-react";
 import { voteIdea } from "@/app/actions";
 import type { Idea } from "@/lib/types";
 import { recordVote, registerVoteCombo } from "@/lib/game";
+import { DEPARTMENT_META } from "@/lib/department-meta";
 import CategoryBadge from "./category-badge";
 import RankBadge from "./rank-badge";
 
@@ -109,9 +110,27 @@ export default function IdeaCard({
         {idea.description}
       </p>
 
+      {(idea.department || idea.bank) && (
+        <div className="flex flex-wrap items-center gap-1.5">
+          {idea.department && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+              {DEPARTMENT_META[idea.department].emoji} {idea.department}
+            </span>
+          )}
+          {idea.bank && (
+            <span className="inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
+              {idea.bank}
+            </span>
+          )}
+        </div>
+      )}
+
       <div className="mt-1 flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-800">
         <span className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-500">
-          <span className="flex items-center gap-1">
+          <span
+            className="flex items-center gap-1"
+            title={idea.staff_id ? `Staff ID: ${idea.staff_id}` : undefined}
+          >
             <User className="h-3 w-3" />
             {idea.submitted_by}
           </span>

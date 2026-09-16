@@ -2,22 +2,46 @@
 
 import { revalidatePath } from "next/cache";
 import { supabase } from "@/lib/supabase";
-import { CATEGORIES, type Category } from "@/lib/types";
+import {
+  BANKS,
+  CATEGORIES,
+  DEPARTMENTS,
+  type BankCode,
+  type Category,
+  type Department,
+} from "@/lib/types";
 
 export type CreateIdeaState = {
   error?: string;
   success?: boolean;
 };
 
+const BANK_CODES = BANKS.map((b) => b.code);
+
 export async function createIdea(
   _prevState: CreateIdeaState,
   formData: FormData
 ): Promise<CreateIdeaState> {
+  const name = String(formData.get("submitted_by") ?? "").trim();
+  const staffId = String(formData.get("staff_id") ?? "").trim();
+  const department = String(formData.get("department") ?? "").trim();
+  const bank = String(formData.get("bank") ?? "").trim();
   const title = String(formData.get("title") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim();
   const category = String(formData.get("category") ?? "").trim();
-  const submittedBy = String(formData.get("submitted_by") ?? "").trim();
 
+  if (name.length < 2 || name.length > 80) {
+    return { error: "Name must be between 2 and 80 characters." };
+  }
+  if (staffId.length < 2 || staffId.length > 20) {
+    return { error: "Staff ID must be between 2 and 20 characters." };
+  }
+  if (!DEPARTMENTS.includes(department as Department)) {
+    return { error: "Please choose a valid department." };
+  }
+  if (!BANK_CODES.includes(bank as BankCode)) {
+    return { error: "Please choose BisB or NBB." };
+  }
   if (title.length < 3 || title.length > 120) {
     return { error: "Title must be between 3 and 120 characters." };
   }
@@ -32,7 +56,10 @@ export async function createIdea(
     title,
     description,
     category,
-    submitted_by: submittedBy || "Anonymous",
+    submitted_by: name,
+    staff_id: staffId,
+    department,
+    bank,
   });
 
   if (error) {
