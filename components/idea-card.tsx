@@ -2,7 +2,7 @@
 
 import { useOptimistic, useRef, useState, useTransition } from "react";
 import confetti from "canvas-confetti";
-import { ChevronUp, Clock, User } from "lucide-react";
+import { Bot, ChevronUp, Clock, User } from "lucide-react";
 import { voteIdea } from "@/app/actions";
 import type { Idea } from "@/lib/types";
 import { recordVote, registerVoteCombo } from "@/lib/game";
@@ -67,6 +67,16 @@ export default function IdeaCard({
     });
   }
 
+  function handleAskAi() {
+    window.dispatchEvent(
+      new CustomEvent("bank-ideas:ask-ai", {
+        detail: {
+          prompt: `Check this idea for originality and banking feasibility: "${idea.title}" — ${idea.description}`,
+        },
+      })
+    );
+  }
+
   return (
     <article
       className={`group relative flex flex-col gap-3 rounded-2xl border bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md dark:bg-slate-900 dark:hover:border-blue-900 ${
@@ -100,9 +110,20 @@ export default function IdeaCard({
       </p>
 
       <div className="mt-1 flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-800">
-        <span className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-500">
-          <User className="h-3 w-3" />
-          {idea.submitted_by}
+        <span className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-500">
+          <span className="flex items-center gap-1">
+            <User className="h-3 w-3" />
+            {idea.submitted_by}
+          </span>
+          <button
+            onClick={handleAskAi}
+            title="Ask the AI assistant about this idea"
+            aria-label="Ask the AI assistant about this idea"
+            className="flex items-center gap-1 rounded-full border border-violet-200 px-2 py-0.5 text-violet-600 transition-colors hover:bg-violet-50 dark:border-violet-900 dark:text-violet-400 dark:hover:bg-violet-950"
+          >
+            <Bot className="h-3 w-3" />
+            Ask AI
+          </button>
         </span>
         <div className="relative">
           {popups.map((popup) => (
