@@ -13,6 +13,7 @@ import { createIdea, type CreateIdeaState } from "@/app/actions";
 import { CATEGORIES, type Category } from "@/lib/types";
 import { CATEGORY_META } from "@/lib/category-meta";
 import { recordIdeaSubmitted } from "@/lib/game";
+import PrizeWheel from "./prize-wheel";
 
 const initialState: CreateIdeaState = {};
 
@@ -28,6 +29,7 @@ export default function IdeaForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [submittedBy, setSubmittedBy] = useState("");
+  const [showWheel, setShowWheel] = useState(false);
 
   async function submitAndCelebrate(
     prevState: CreateIdeaState,
@@ -41,6 +43,7 @@ export default function IdeaForm() {
       setTitle("");
       setDescription("");
       setSubmittedBy("");
+      setShowWheel(true);
     }
     return result;
   }
@@ -55,6 +58,8 @@ export default function IdeaForm() {
     title.trim().length >= 3 && description.trim().length >= 10;
 
   return (
+    <>
+    {showWheel && <PrizeWheel onDone={() => setShowWheel(false)} />}
     <form
       action={formAction}
       className="space-y-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900"
@@ -247,5 +252,6 @@ export default function IdeaForm() {
         )}
       </div>
     </form>
+    </>
   );
 }

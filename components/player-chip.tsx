@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Flame, Lock, Star } from "lucide-react";
+import { Flame, Lock } from "lucide-react";
 import { usePlayer } from "@/lib/use-player";
 import { ACHIEVEMENTS, getLevel } from "@/lib/game";
 
@@ -25,9 +25,9 @@ export default function PlayerChip() {
     <div className="relative">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800 transition-colors hover:bg-amber-100 dark:border-amber-900 dark:bg-amber-950/50 dark:text-amber-300 dark:hover:bg-amber-950"
+        className="flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800 transition-transform hover:scale-105 hover:bg-amber-100 dark:border-amber-900 dark:bg-amber-950/50 dark:text-amber-300 dark:hover:bg-amber-950"
       >
-        <Star className="h-3.5 w-3.5" />
+        <span className="text-sm">{level.emoji}</span>
         Lv.{level.level}
         <span className="hidden text-amber-600 sm:inline dark:text-amber-400">
           {player.points} XP
@@ -42,13 +42,16 @@ export default function PlayerChip() {
           />
           <div className="absolute right-0 z-30 mt-2 w-80 rounded-2xl border border-slate-200 bg-white p-4 shadow-xl dark:border-slate-800 dark:bg-slate-900">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-semibold text-slate-900 dark:text-slate-50">
-                  {level.title}
-                </p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Level {level.level} · {player.points} XP
-                </p>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">{level.emoji}</span>
+                <div>
+                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-50">
+                    {level.title}
+                  </p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Level {level.level} · {player.points} XP
+                  </p>
+                </div>
               </div>
               {player.streak > 0 && (
                 <span className="flex items-center gap-1 rounded-full bg-orange-50 px-2 py-1 text-xs font-semibold text-orange-700 dark:bg-orange-950 dark:text-orange-300">
@@ -125,6 +128,13 @@ export default function PlayerChip() {
                 );
               })}
             </div>
+
+            <a
+              href="/showdown"
+              className="mt-4 flex items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-violet-600 to-fuchsia-600 px-3 py-2 text-xs font-bold text-white shadow-sm transition-transform hover:scale-[1.02]"
+            >
+              ⚔️ Play Idea Showdown
+            </a>
           </div>
         </>
       )}

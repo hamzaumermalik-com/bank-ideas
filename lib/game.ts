@@ -79,15 +79,16 @@ export type LevelInfo = {
   level: number;
   title: string;
   threshold: number;
-  next?: { level: number; title: string; threshold: number };
+  emoji: string;
+  next?: { level: number; title: string; threshold: number; emoji: string };
 };
 
-const LEVELS: { level: number; title: string; threshold: number }[] = [
-  { level: 1, title: "Idea Newbie", threshold: 0 },
-  { level: 2, title: "Idea Enthusiast", threshold: 20 },
-  { level: 3, title: "Innovation Ninja", threshold: 50 },
-  { level: 4, title: "Idea Champion", threshold: 100 },
-  { level: 5, title: "Bank Idea Legend", threshold: 200 },
+const LEVELS: { level: number; title: string; threshold: number; emoji: string }[] = [
+  { level: 1, title: "Idea Newbie", threshold: 0, emoji: "🐣" },
+  { level: 2, title: "Idea Enthusiast", threshold: 20, emoji: "🐥" },
+  { level: 3, title: "Innovation Ninja", threshold: 50, emoji: "🥷" },
+  { level: 4, title: "Idea Champion", threshold: 100, emoji: "🏆" },
+  { level: 5, title: "Bank Idea Legend", threshold: 200, emoji: "👑" },
 ];
 
 export function getLevel(points: number): LevelInfo {
@@ -224,6 +225,15 @@ export function recordVote(): PlayerState {
   state = applyStreak(state);
   state = { ...state, votesCast: state.votesCast + 1 };
   state = applyPoints(state, 2, "Vote cast");
+  state = applyAchievements(state);
+  savePlayer(state);
+  return state;
+}
+
+export function recordBonus(amount: number, reason: string): PlayerState {
+  let state = loadPlayer();
+  state = applyStreak(state);
+  state = applyPoints(state, amount, reason);
   state = applyAchievements(state);
   savePlayer(state);
   return state;

@@ -122,16 +122,25 @@ export default function IdeasBoard({
         <StatTile icon={ThumbsUp} label="Total votes cast" value={totalVotes} />
       </div>
 
-      <Link
-        href="/dashboard"
-        className="flex items-center justify-between rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-900 transition-colors hover:bg-amber-100 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200 dark:hover:bg-amber-950/70"
-      >
-        <span className="flex items-center gap-2">
-          <Trophy className="h-4 w-4" />
-          See who&apos;s winning on the Dashboard
-        </span>
-        <ArrowRight className="h-4 w-4" />
-      </Link>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <Link
+          href="/showdown"
+          className="flex items-center justify-between rounded-xl border border-violet-200 bg-gradient-to-r from-violet-50 to-fuchsia-50 px-4 py-3 text-sm font-semibold text-violet-900 transition-colors hover:from-violet-100 hover:to-fuchsia-100 dark:border-violet-900 dark:from-violet-950/40 dark:to-fuchsia-950/40 dark:text-violet-200"
+        >
+          <span className="flex items-center gap-2">⚔️ Play Idea Showdown</span>
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+        <Link
+          href="/dashboard"
+          className="flex items-center justify-between rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-900 transition-colors hover:bg-amber-100 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200 dark:hover:bg-amber-950/70"
+        >
+          <span className="flex items-center gap-2">
+            <Trophy className="h-4 w-4" />
+            See who&apos;s winning
+          </span>
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="relative w-full sm:max-w-xs">

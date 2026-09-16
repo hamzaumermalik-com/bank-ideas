@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Landmark, LayoutDashboard, Lightbulb } from "lucide-react";
+import { Landmark, LayoutDashboard, Lightbulb, Swords } from "lucide-react";
 import PlayerChip from "./player-chip";
 
 const NAV_ITEMS = [
   { href: "/", label: "Ideas", icon: Lightbulb },
+  { href: "/showdown", label: "Showdown", icon: Swords },
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
 ];
 
